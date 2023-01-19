@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller;
 
-import com.example.ecommerce.converter.ProductDtoConverter;
+import com.example.ecommerce.dto.converter.ProductDtoConverter;
 import com.example.ecommerce.dto.product.CreateProductRequest;
 import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.model.Category;
@@ -20,8 +20,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;

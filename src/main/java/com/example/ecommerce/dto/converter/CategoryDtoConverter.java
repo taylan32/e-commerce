@@ -1,4 +1,4 @@
-package com.example.ecommerce.converter;
+package com.example.ecommerce.dto.converter;
 
 import com.example.ecommerce.dto.category.CategoryDto;
 import com.example.ecommerce.model.Category;

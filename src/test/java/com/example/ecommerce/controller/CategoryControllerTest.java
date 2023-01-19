@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller;
 
-import com.example.ecommerce.converter.CategoryDtoConverter;
+import com.example.ecommerce.dto.converter.CategoryDtoConverter;
 import com.example.ecommerce.dto.category.CategoryDto;
 import com.example.ecommerce.dto.category.CreateCategoryRequest;
 import com.example.ecommerce.model.Category;

@@ -1,6 +1,6 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.converter.ProductDtoConverter;
+import com.example.ecommerce.dto.converter.ProductDtoConverter;
 import com.example.ecommerce.dto.product.CreateProductRequest;
 import com.example.ecommerce.dto.product.ProductDto;
 import com.example.ecommerce.exception.BaseException;
