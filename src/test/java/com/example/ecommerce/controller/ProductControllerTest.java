@@ -62,13 +62,13 @@ class ProductControllerTest {
     @Test
     public void testCreateProduct_whenCategoryIdExists_shouldCreateProductAndReturnProductDto() throws Exception {
         Category category = generateCategory();
-        categoryRepository.save(category);
+        Category c = categoryRepository.save(category);
         CreateProductRequest request = new CreateProductRequest(
                 "product-name",
                 new BigDecimal(100),
                 10,
                 "product-definition",
-                category.getId()
+                c.getId()
         );
 
         mockMvc.perform(post(PRODUCT_API_ENDPOINT)
@@ -81,13 +81,13 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.price", is(Integer.valueOf(Integer.valueOf(request.getPrice().toString())))))
                 .andExpect(jsonPath("$.unitsInStock", is(request.getUnitsInStock())))
                 .andExpect(jsonPath("$.definition", is(request.getDefinition())))
-                .andExpect(jsonPath("$.category.id", is(Integer.valueOf(category.getId().toString()))))
+                .andExpect(jsonPath("$.category.id", is(Integer.valueOf(c.getId().toString()))))
                 .andExpect(jsonPath("$.category.categoryName", is(category.getCategoryName())));
 
     }
 
     @Test
-    public void testCreateProduct_whenCategoryDoesNotExist_shouldReturnHttpNotFound() throws Exception {
+    public void testCreateProduct_whenCategoryIdDoesNotExist_shouldReturnHttpNotFound() throws Exception {
         Category category = generateCategory();
         categoryRepository.save(category);
         CreateProductRequest request = new CreateProductRequest(
@@ -95,7 +95,7 @@ class ProductControllerTest {
                 new BigDecimal(100),
                 10,
                 "product-definition",
-                Long.valueOf(2)
+                Long.valueOf(0)
         );
 
         mockMvc.perform(post(PRODUCT_API_ENDPOINT)
@@ -145,7 +145,7 @@ class ProductControllerTest {
 
     @Test
     public void testGetProductById_whenProductIdDoesNotExist_shouldReturnHttpNotFound() throws Exception {
-        mockMvc.perform(get(PRODUCT_API_ENDPOINT + "/" + 1))
+        mockMvc.perform(get(PRODUCT_API_ENDPOINT + "/" + 0))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -157,7 +157,7 @@ class ProductControllerTest {
     }
     public Product generateProduct(Category category) {
         return new Product(
-                Long.valueOf(1),
+                Long.valueOf(0),
                 "product-name",
                 new BigDecimal(100),
                 10,

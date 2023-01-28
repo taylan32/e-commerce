@@ -96,7 +96,7 @@ class CategoryControllerTest {
     @Test
     public void testGetById_whenCategoryIdDoesNotExist_shouldReturnHttpNotFound() throws Exception {
 
-        mockMvc.perform(get(CATEGORY_API_ENDPOINT + "/" + 1))
+        mockMvc.perform(get(CATEGORY_API_ENDPOINT + "/" + 0))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
