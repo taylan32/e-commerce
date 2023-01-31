@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.dto.converter.CategoryDtoConverter;
 import com.example.ecommerce.dto.converter.ProductDtoConverter;
 import com.example.ecommerce.dto.product.CreateProductRequest;
 import com.example.ecommerce.dto.product.ProductDto;
@@ -24,6 +25,7 @@ class ProductServiceTest {
     private ProductRepository productRepository;
     private CategoryService categoryService;
     private ProductDtoConverter converter;
+    private CategoryDtoConverter categoryDtoConverter;
 
     @BeforeEach
     public void setUp() {
@@ -31,6 +33,7 @@ class ProductServiceTest {
         productRepository = mock(ProductRepository.class);
         categoryService = mock(CategoryService.class);
         converter = mock(ProductDtoConverter.class);
+        categoryDtoConverter = mock(CategoryDtoConverter.class);
         productService = new ProductService(productRepository, categoryService, converter);
 
     }
@@ -63,7 +66,7 @@ class ProductServiceTest {
                 product.getPrice(),
                 product.getUnitsInStock(),
                 product.getDefinition(),
-                product.getCategory()
+                categoryDtoConverter.convert(product.getCategory())
         );
         Mockito.when(productRepository.findById(Long.valueOf(1))).thenReturn(Optional.of(product));
         Mockito.when(converter.convert(product)).thenReturn(productDto);
@@ -102,7 +105,7 @@ class ProductServiceTest {
                 new BigDecimal(100),
                 10,
                 "product-definition",
-                category
+                categoryDtoConverter.convert(category)
         );
 
         Mockito.when(productRepository.save(product)).thenReturn(product);

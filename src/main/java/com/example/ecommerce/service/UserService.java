@@ -53,14 +53,7 @@ public class UserService {
                         .errorMessage("You must login.")
                         .build());
 
-        final UserDetails details = Optional.ofNullable((UserDetails) authentication.getDetails())
-                .orElseThrow(() -> BaseException
-                        .builder()
-                        .httpStatus(HttpStatus.UNAUTHORIZED)
-                        .errorMessage("You must login.")
-                        .build());
-
-        return findUserByUsername(details.getUsername());
+        return findUserByUsername(authentication.getName());
     }
 
     protected boolean existsByUserName(String username) {

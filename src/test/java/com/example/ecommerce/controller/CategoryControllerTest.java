@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -53,7 +54,10 @@ class CategoryControllerTest {
     public void setUp() {}
 
     @Test
+    @WithMockUser
     public void testCreateCategory_ShouldCreateCategoryAndReturnCategoryDto() throws Exception{
+
+
         CreateCategoryRequest request = new CreateCategoryRequest("name");
         mockMvc.perform(post(CATEGORY_API_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,6 +70,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testCreateCategory_whenCategoryNameAlreadyExists_shouldReturnHttpBadRequest() throws Exception {
         Category category = categoryRepository.save(new Category(null, "category-name"));
         CreateCategoryRequest request = new CreateCategoryRequest("category-name");

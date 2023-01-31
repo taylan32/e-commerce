@@ -1,5 +1,6 @@
 package com.example.ecommerce.dto.product;
 
+import com.example.ecommerce.dto.category.CategoryDto;
 import com.example.ecommerce.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,6 @@ public class ProductDto {
     private BigDecimal price;
     private int unitsInStock;
     private String definition;
-    private Category category;
+    private CategoryDto category;
 
 }

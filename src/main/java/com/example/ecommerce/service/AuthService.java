@@ -68,15 +68,15 @@ public class AuthService {
                     .build();
         }
 
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+
         return userDtoConverter.convert(
-                userService.create(new User(
-                        null,
-                        request.getUsername(),
-                        passwordEncoder.encode(request.getPassword()),
-                        request.getName(),
-                        request.getEmail(),
-                        request.getPhoneNumber())
-                )
+                userService.create(user)
         );
     }
 

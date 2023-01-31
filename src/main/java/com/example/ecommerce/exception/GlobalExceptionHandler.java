@@ -12,7 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> errors = new HashMap<>();
         errors.put("error", exception.getErrorMessage());
         errors.put("httpstatus", exception.getHttpStatus() != null ? exception.getHttpStatus() : HttpStatus.BAD_REQUEST);
-        errors.put("timestamp", LocalDateTime.now());
+        errors.put("timestamp", new Date().toString());
         return ResponseEntity.status(
                 exception.getHttpStatus() != null ? exception.getHttpStatus() : HttpStatus.BAD_REQUEST
         ).body(errors);
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> errors = new HashMap<>();
         errors.put("error", exception.getMessage());
         errors.put("httpstaus", HttpStatus.INTERNAL_SERVER_ERROR);
-        errors.put("timestamp", LocalDateTime.now());
+        errors.put("timestamp", new Date().toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
     }
 
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> errors = new HashMap<>();
         errors.put("error","Validation Error(s)");
         errors.put("httpstatus",HttpStatus.BAD_REQUEST);
-        errors.put("timestamp", LocalDateTime.now());
+        errors.put("timestamp", new Date().toString());
         ex.getBindingResult().getAllErrors().forEach(err -> errors.put(
                 ((FieldError)err).getField(),
                 err.getDefaultMessage()));
