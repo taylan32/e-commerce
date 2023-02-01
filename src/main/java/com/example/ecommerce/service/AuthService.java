@@ -7,7 +7,9 @@ import com.example.ecommerce.dto.converter.TokenResponseDtoConverter;
 import com.example.ecommerce.dto.converter.UserDtoConverter;
 import com.example.ecommerce.dto.user.UserDto;
 import com.example.ecommerce.exception.BaseException;
+import com.example.ecommerce.model.Cart;
 import com.example.ecommerce.model.User;
+import com.example.ecommerce.repository.UserRepository;
 import com.example.ecommerce.security.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Service
 public class AuthService {
@@ -26,7 +31,8 @@ public class AuthService {
     private UserDtoConverter userDtoConverter;
     private final PasswordEncoder passwordEncoder;
     private final TokenResponseDtoConverter converter;
-
+    private final CartService cartService;
+    private final UserRepository userRepository;
 
 
     public AuthService(AuthenticationManager authenticationManager,
@@ -34,13 +40,17 @@ public class AuthService {
                        TokenService tokenService,
                        UserDtoConverter userDtoConverter,
                        PasswordEncoder passwordEncoder,
-                       TokenResponseDtoConverter converter) {
+                       TokenResponseDtoConverter converter,
+                       CartService cartService,
+                       UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenService = tokenService;
         this.userDtoConverter = userDtoConverter;
         this.passwordEncoder = passwordEncoder;
         this.converter = converter;
+        this.cartService = cartService;
+        this.userRepository = userRepository;
     }
 
     public TokenResponseDto login(LoginRequest request) {
@@ -55,7 +65,7 @@ public class AuthService {
         } catch (final Exception exception) {
             throw  BaseException.builder()
                     .httpStatus(HttpStatus.NOT_FOUND)
-                    .errorMessage(exception.getMessage())
+                    .errorMessage("Username or password is incorrect")
                     .build();
         }
     }
@@ -74,10 +84,13 @@ public class AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
-
-        return userDtoConverter.convert(
-                userService.create(user)
+        Cart cart = new Cart(
+                null,
+                new ArrayList<>(),
+                user
         );
+        user.setCart(cart);
+        return userDtoConverter.convert(userRepository.save(user));
     }
 
 }

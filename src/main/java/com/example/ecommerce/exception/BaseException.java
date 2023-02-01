@@ -16,4 +16,5 @@ public class BaseException extends RuntimeException {
     private HttpStatus httpStatus;
     private String errorMessage;
 
+
 }

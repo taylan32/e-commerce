@@ -5,38 +5,37 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "categories")
-public class Category {
+@Table(name = "cart_products")
+public class CartProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "category_name", nullable = false, length = 20)
-    private String categoryName;
+    @OneToOne
+    private Product product;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Product> products;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Cart cart;
 
-    public Category(Long id, String categoryName) {
-        this.id = id;
-        this.categoryName = categoryName;
-    }
+    private int amount;
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "CartProduct{" +
                 "id=" + id +
-                ", categoryName='" + categoryName + '\'' +
+                ", product=" + product +
+                ", amount=" + amount +
                 '}';
     }
 }

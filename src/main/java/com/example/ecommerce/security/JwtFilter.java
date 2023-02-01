@@ -62,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         Map<String, Object> errors = new HashMap<>();
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        errors.put("error", e.getMessage());
+        errors.put("error", "You must login.");
         errors.put("httpstatus", HttpStatus.UNAUTHORIZED);
         errors.put("timestamp", new Date().toString());
         ObjectMapper mapper = new ObjectMapper();
